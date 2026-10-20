@@ -1,17 +1,50 @@
+import Link from "next/link";
 import KartuProduk from "@/components/KartuProduk";
 import { toko } from "@/lib/toko";
 import { createServerClient } from "@/lib/supabase/server";
 
-export default async function HalamanKatalog() {
+export default async function HalamanKatalog({ searchParams }) {
+  const params = (await searchParams) || {};
+  const cari = params.q?.toString().trim() || "";
+  const kategoriDipilih = params.kategori?.toString().trim() || "Semua";
+
   let daftarProduk = null;
+  let daftarKategori = ["Semua"];
   let pesanError = null;
 
   try {
     const supabase = createServerClient();
-    const { data, error } = await supabase
+
+    // Ambil semua kategori unik dari database untuk pilihan filter
+    const { data: dataKategori } = await supabase
       .from("produk")
-      .select("*")
-      .order("id", { ascending: true });
+      .select("kategori");
+
+    if (dataKategori) {
+      const kategoriUnik = Array.from(
+        new Set(
+          dataKategori
+            .map((p) => p.kategori)
+            .filter((k) => k && typeof k === "string")
+        )
+      );
+      daftarKategori = ["Semua", ...kategoriUnik];
+    }
+
+    // Bangun query produk dengan filter kategori dan pencarian
+    let query = supabase.from("produk").select("*");
+
+    if (kategoriDipilih && kategoriDipilih !== "Semua") {
+      query = query.eq("kategori", kategoriDipilih);
+    }
+
+    if (cari) {
+      query = query.ilike("nama", `%${cari}%`);
+    }
+
+    query = query.order("id", { ascending: true });
+
+    const { data, error } = await query;
 
     if (error) {
       pesanError = error.message;
@@ -32,10 +65,77 @@ export default async function HalamanKatalog() {
         <p className="mt-4 text-sm text-teks-lembut">{toko.jamBuka}</p>
       </section>
 
-      <section aria-labelledby="judul-produk" className="flex flex-col gap-5">
-        <h2 id="judul-produk" className="text-xl font-bold">
-          Produk kami
-        </h2>
+      <section aria-labelledby="judul-produk" className="flex flex-col gap-6">
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 id="judul-produk" className="text-xl font-bold">
+              Produk kami
+            </h2>
+            {daftarProduk && (
+              <span className="text-xs font-semibold text-teks-lembut">
+                {daftarProduk.length} menu tersedia
+              </span>
+            )}
+          </div>
+
+          {/* Form Pencarian */}
+          <form method="GET" action="/" className="flex flex-col gap-2.5 sm:flex-row">
+            <div className="relative flex-1">
+              <input
+                type="text"
+                name="q"
+                defaultValue={cari}
+                placeholder="Cari nama produk..."
+                className="w-full rounded-xl border border-garis bg-latar px-4 py-2.5 text-sm text-teks placeholder:text-teks-lembut focus:border-utama focus:outline-none"
+              />
+            </div>
+            {kategoriDipilih !== "Semua" && (
+              <input type="hidden" name="kategori" value={kategoriDipilih} />
+            )}
+            <button
+              type="submit"
+              className="inline-flex items-center justify-center rounded-xl bg-utama px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-utama-gelap"
+            >
+              Cari
+            </button>
+            {(cari || kategoriDipilih !== "Semua") && (
+              <Link
+                href="/"
+                className="inline-flex items-center justify-center rounded-xl border border-garis bg-latar px-4 py-2.5 text-sm font-semibold text-teks-lembut transition-colors hover:border-utama hover:text-utama"
+              >
+                Reset
+              </Link>
+            )}
+          </form>
+
+          {/* Filter Kategori */}
+          {daftarKategori.length > 1 && (
+            <div className="flex flex-wrap items-center gap-2 pt-1">
+              {daftarKategori.map((kat) => {
+                const aktif = kat === kategoriDipilih;
+                const paramsQuery = new URLSearchParams();
+                if (cari) paramsQuery.set("q", cari);
+                if (kat !== "Semua") paramsQuery.set("kategori", kat);
+                const queryStr = paramsQuery.toString();
+                const href = queryStr ? `/?${queryStr}` : "/";
+
+                return (
+                  <Link
+                    key={kat}
+                    href={href}
+                    className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition-colors ${
+                      aktif
+                        ? "bg-utama text-white shadow-sm"
+                        : "border border-garis bg-latar text-teks-lembut hover:border-utama hover:text-utama"
+                    }`}
+                  >
+                    {kat}
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+        </div>
 
         {pesanError ? (
           <div className="rounded-3xl border border-garis bg-permukaan p-6 sm:p-8">
@@ -48,30 +148,23 @@ export default async function HalamanKatalog() {
               </span>
               <p className="text-base font-bold text-bahaya">Gagal memuat produk</p>
               <p className="mt-1 max-w-lg text-sm text-teks-lembut">{pesanError}</p>
-
-              <div className="mt-5 w-full max-w-md rounded-2xl border border-garis bg-latar p-4 text-left text-xs leading-relaxed text-teks-lembut">
-                <p className="font-bold text-teks">Petunjuk penyelesaian:</p>
-                <ol className="mt-2 list-decimal space-y-1 pl-4">
-                  <li>
-                    Buka file <span className="font-mono font-semibold text-teks">.env.local</span>.
-                  </li>
-                  <li>
-                    Isi <span className="font-mono font-semibold text-teks">SUPABASE_URL</span> dan{" "}
-                    <span className="font-mono font-semibold text-teks">SUPABASE_SECRET_KEY</span> dari dashboard Supabase Anda.
-                  </li>
-                  <li>
-                    Pastikan tabel produk sudah dibuat melalui SQL Editor (<span className="font-mono text-teks">docs/schema.sql</span>).
-                  </li>
-                  <li>
-                    Restart server terminal (<span className="font-mono text-teks">Ctrl + C</span> lalu jalankan ulang <span className="font-mono text-teks">npm run dev</span>).
-                  </li>
-                </ol>
-              </div>
             </div>
           </div>
         ) : !daftarProduk || daftarProduk.length === 0 ? (
           <div className="rounded-2xl border border-garis bg-permukaan py-12 text-center">
-            <p className="text-base text-teks-lembut">Belum ada produk</p>
+            <p className="text-base text-teks-lembut">
+              {cari || kategoriDipilih !== "Semua"
+                ? "Tidak ada produk yang sesuai dengan pencarian atau filter kategori."
+                : "Belum ada produk"}
+            </p>
+            {(cari || kategoriDipilih !== "Semua") && (
+              <Link
+                href="/"
+                className="mt-3 inline-block text-sm font-semibold text-utama underline underline-offset-4"
+              >
+                Lihat semua produk
+              </Link>
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3">

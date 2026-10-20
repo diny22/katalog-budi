@@ -95,30 +95,6 @@ export async function gantiPassword(prevState, formData) {
   }
 }
 
-function ambilDataProduk(formData) {
-  const nama = formData.get("nama")?.toString().trim() || "";
-  const hargaInput = formData.get("harga")?.toString().trim() || "";
-  const harga = Number(hargaInput);
-
-  if (!nama || !hargaInput) {
-    return { error: "Nama produk dan harga wajib diisi." };
-  }
-
-  if (!Number.isSafeInteger(harga) || harga < 0) {
-    return { error: "Harga harus berupa angka bulat nol atau lebih." };
-  }
-
-  return {
-    produk: {
-      nama,
-      harga,
-      kategori: formData.get("kategori")?.toString().trim() || null,
-      foto_url: formData.get("foto_url")?.toString().trim() || null,
-      deskripsi: formData.get("deskripsi")?.toString().trim() || null,
-    },
-  };
-}
-
 async function pastikanAdmin() {
   const supabase = await createAuthClient();
   const {
@@ -133,8 +109,37 @@ async function pastikanAdmin() {
   return { supabase };
 }
 
+function ambilDataProduk(data) {
+  if (!data || typeof data.get !== "function") {
+    return { error: "Data formulir tidak valid." };
+  }
+
+  const nama = data.get("nama")?.toString().trim() || "";
+  const hargaInput = data.get("harga")?.toString().trim() || "";
+  const harga = Number(hargaInput);
+
+  if (!nama || !hargaInput) {
+    return { error: "Nama produk dan harga wajib diisi." };
+  }
+
+  if (!Number.isSafeInteger(harga) || harga < 0) {
+    return { error: "Harga harus berupa angka bulat nol atau lebih." };
+  }
+
+  return {
+    produk: {
+      nama,
+      harga,
+      kategori: data.get("kategori")?.toString().trim() || null,
+      foto_url: data.get("foto_url")?.toString().trim() || null,
+      deskripsi: data.get("deskripsi")?.toString().trim() || null,
+    },
+  };
+}
+
 export async function tambahProduk(prevState, formData) {
-  const hasilValidasi = ambilDataProduk(formData);
+  const data = formData instanceof FormData ? formData : prevState;
+  const hasilValidasi = ambilDataProduk(data);
   if (hasilValidasi.error) {
     return hasilValidasi;
   }
@@ -170,7 +175,13 @@ export async function ubahProduk(id, prevState, formData) {
     return { error: "ID produk tidak valid." };
   }
 
-  const hasilValidasi = ambilDataProduk(formData);
+  const data =
+    formData instanceof FormData
+      ? formData
+      : prevState instanceof FormData
+      ? prevState
+      : null;
+  const hasilValidasi = ambilDataProduk(data);
   if (hasilValidasi.error) {
     return hasilValidasi;
   }
@@ -181,7 +192,7 @@ export async function ubahProduk(id, prevState, formData) {
       return hasilAdmin;
     }
 
-    const { data, error } = await hasilAdmin.supabase
+    const { data: updateData, error } = await hasilAdmin.supabase
       .from("produk")
       .update(hasilValidasi.produk)
       .eq("id", idProduk)
@@ -192,7 +203,7 @@ export async function ubahProduk(id, prevState, formData) {
       return { error: `Perubahan produk gagal disimpan: ${error.message}` };
     }
 
-    if (!data) {
+    if (!updateData) {
       return { error: "Produk tidak ditemukan atau tidak dapat diubah." };
     }
   } catch (error) {
@@ -206,4 +217,43 @@ export async function ubahProduk(id, prevState, formData) {
   revalidatePath("/admin");
   revalidatePath(`/produk/${idProduk}`);
   redirect("/admin");
+}
+
+export async function hapusProduk(idOrFormData) {
+  const rawId =
+    idOrFormData instanceof FormData
+      ? idOrFormData.get("id")
+      : idOrFormData;
+  const idProduk = Number(rawId);
+
+  if (!Number.isSafeInteger(idProduk) || idProduk < 1) {
+    return { error: "ID produk tidak valid." };
+  }
+
+  try {
+    const hasilAdmin = await pastikanAdmin();
+    if (hasilAdmin.error) {
+      return hasilAdmin;
+    }
+
+    const { error } = await hasilAdmin.supabase
+      .from("produk")
+      .delete()
+      .eq("id", idProduk);
+
+    if (error) {
+      return { error: `Gagal menghapus produk: ${error.message}` };
+    }
+  } catch (error) {
+    return {
+      error:
+        error.message ||
+        "Terjadi kesalahan saat menghapus produk. Silakan coba lagi.",
+    };
+  }
+
+  revalidatePath("/");
+  revalidatePath("/admin");
+  revalidatePath(`/produk/${idProduk}`);
+  return { success: true };
 }
