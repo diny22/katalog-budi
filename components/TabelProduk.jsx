@@ -16,29 +16,37 @@ export default function TabelProduk({ daftarProduk }) {
           </tr>
         </thead>
         <tbody>
-          {daftarProduk.map((produk) => (
-            <tr key={produk.id} className="border-t border-garis">
-              <td className="px-4 py-3">
-                <div className="flex items-center gap-3">
-                  <img src={produk.foto_url} alt="" className="h-10 w-10 rounded-md object-cover" />
-                  <span className="font-semibold">{produk.nama}</span>
-                </div>
-              </td>
-              <td className="px-4 py-3 text-teks-lembut">{produk.kategori}</td>
-              <td className="px-4 py-3">{formatRupiah(produk.harga)}</td>
-              <td className="px-4 py-3">
-                <div className="flex justify-end gap-2">
-                  {/* US-09 dan US-10 (bonus): ubah dan hapus produk */}
-                  <Tombol href={`/admin/produk/${produk.id}/ubah`} varian="garis">
-                    Ubah
-                  </Tombol>
-                  <Tombol type="button" varian="bahaya">
-                    Hapus
-                  </Tombol>
-                </div>
+          {daftarProduk.length === 0 ? (
+            <tr className="border-t border-garis">
+              <td colSpan={4} className="px-4 py-8 text-center text-teks-lembut">
+                Belum ada produk di database.
               </td>
             </tr>
-          ))}
+          ) : (
+            daftarProduk.map((produk) => (
+              <tr key={produk.id} className="border-t border-garis">
+                <td className="px-4 py-3">
+                  <div className="flex items-center gap-3">
+                    <img src={produk.foto_url} alt="" className="h-10 w-10 rounded-md object-cover" />
+                    <span className="font-semibold">{produk.nama}</span>
+                  </div>
+                </td>
+                <td className="px-4 py-3 text-teks-lembut">{produk.kategori}</td>
+                <td className="px-4 py-3">{formatRupiah(produk.harga)}</td>
+                <td className="px-4 py-3">
+                  <div className="flex justify-end gap-2">
+                    {/* US-09 dan US-10 (bonus): ubah dan hapus produk */}
+                    <Tombol href={`/admin/produk/${produk.id}/ubah`} varian="garis">
+                      Ubah
+                    </Tombol>
+                    <Tombol type="button" varian="bahaya">
+                      Hapus
+                    </Tombol>
+                  </div>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>

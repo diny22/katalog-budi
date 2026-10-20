@@ -1,13 +1,29 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import NavAdmin from "@/components/NavAdmin";
 import FormProduk from "@/components/FormProduk";
-import CatatanBelumAktif from "@/components/CatatanBelumAktif";
-import { cariProdukContoh } from "@/lib/data-contoh";
+import { createAuthClient } from "@/lib/supabase/auth";
 
-// US-09 (bonus di jalur offline): ubah produk.
 export default async function HalamanUbahProduk({ params }) {
   const { id } = await params;
-  const produk = cariProdukContoh(id);
+  const supabase = await createAuthClient();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
+  if (authError || !user) {
+    redirect("/admin/login");
+  }
+
+  const { data: produk, error } = await supabase
+    .from("produk")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(`Gagal memuat produk: ${error.message}`);
+  }
 
   if (!produk) {
     notFound();
@@ -16,8 +32,12 @@ export default async function HalamanUbahProduk({ params }) {
   return (
     <div className="flex flex-col gap-6 py-8">
       <NavAdmin />
-      <h1 className="text-2xl font-extrabold">Ubah produk</h1>
-      <CatatanBelumAktif>Simpan perubahan belum berfungsi: lihat US-09.</CatatanBelumAktif>
+      <div>
+        <h1 className="text-2xl font-extrabold">Ubah menu kafe</h1>
+        <p className="mt-1 text-sm text-teks-lembut">
+          Perbarui detail menu, lalu simpan perubahan.
+        </p>
+      </div>
       <FormProduk produk={produk} labelTombol="Simpan perubahan" />
     </div>
   );
