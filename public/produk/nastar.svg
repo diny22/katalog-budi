@@ -1,7 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Foto contoh: Nastar">
-  <rect width="600" height="600" fill="#fff4dc"/>
-  <circle cx="300" cy="260" r="150" fill="#c27c0e" opacity="0.18"/>
-  <circle cx="300" cy="260" r="96" fill="#c27c0e" opacity="0.85"/>
-  <text x="300" y="490" text-anchor="middle" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="56" font-weight="700" fill="#c27c0e">Nastar</text>
-  <text x="300" y="545" text-anchor="middle" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="26" fill="#c27c0e" opacity="0.7">foto contoh, ganti dengan foto produkmu</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Ilustrasi butter croissant">
+  <rect width="600" height="600" fill="#f6e5bd"/>
+  <circle cx="300" cy="270" r="188" fill="#fff8e9" opacity=".65"/>
+  <ellipse cx="300" cy="410" rx="178" ry="34" fill="#d9b475" opacity=".45"/>
+  <path d="M150 355c24-114 88-163 150-163s126 49 150 163c-35-23-59-23-87 0-25-23-49-23-63 0-14-23-38-23-63 0-28-23-52-23-87 0z" fill="#d9953e" stroke="#a8622d" stroke-width="9" stroke-linejoin="round"/>
+  <path d="M209 255c-6 48-3 78 18 108m44-159c-8 62-5 105 10 141m48-141c8 58 6 100-10 141m64-90c6 48 3 78-18 108" fill="none" stroke="#f6c772" stroke-width="15" stroke-linecap="round"/>
+  <path d="M160 355c24-18 47-18 72 0m63 0c14-18 31-18 45 0m63 0c25-18 48-18 72 0" fill="none" stroke="#f8d58e" stroke-width="9" stroke-linecap="round"/>
+  <path d="m135 205 12-18m-6 9 20 2m292 22 12-18m-6 9 20 2" stroke="#c28150" stroke-width="8" stroke-linecap="round"/>
+  <text x="300" y="520" text-anchor="middle" font-family="Arial, sans-serif" font-size="29" font-weight="700" fill="#75432f">Butter Croissant</text>
+  <text x="300" y="555" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="4" fill="#9a5b3f">DINEA CAFE</text>
 </svg>

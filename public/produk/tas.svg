@@ -1,7 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Foto contoh: Anyaman">
-  <rect width="600" height="600" fill="#e6efdf"/>
-  <circle cx="300" cy="260" r="150" fill="#4f7a3a" opacity="0.18"/>
-  <circle cx="300" cy="260" r="96" fill="#4f7a3a" opacity="0.85"/>
-  <text x="300" y="490" text-anchor="middle" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="56" font-weight="700" fill="#4f7a3a">Anyaman</text>
-  <text x="300" y="545" text-anchor="middle" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="26" fill="#4f7a3a" opacity="0.7">foto contoh, ganti dengan foto produkmu</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Ilustrasi tiramisu cup">
+  <rect width="600" height="600" fill="#f1d9cc"/>
+  <circle cx="300" cy="270" r="188" fill="#fff5ee" opacity=".65"/>
+  <ellipse cx="300" cy="418" rx="155" ry="25" fill="#9a5b3f" opacity=".15"/>
+  <path d="M205 185h190l-22 211a32 32 0 0 1-32 29h-82a32 32 0 0 1-32-29z" fill="#fffaf3" stroke="#9a5b3f" stroke-width="10"/>
+  <path d="M221 253h158l-7 67H228z" fill="#d9b48d"/>
+  <path d="M228 320h144l-8 72a28 28 0 0 1-28 25h-72a28 28 0 0 1-28-25z" fill="#f5e4ca"/>
+  <path d="M215 231h170v25H215z" fill="#6b4434"/>
+  <path d="M233 211h134" stroke="#fffaf3" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="265" cy="229" r="7" fill="#f5e4ca"/>
+  <circle cx="300" cy="229" r="7" fill="#f5e4ca"/>
+  <circle cx="335" cy="229" r="7" fill="#f5e4ca"/>
+  <path d="m147 205 12-18m-6 9 20 2m260 24 12-18m-6 9 20 2" stroke="#9a5b3f" stroke-width="8" stroke-linecap="round"/>
+  <text x="300" y="520" text-anchor="middle" font-family="Arial, sans-serif" font-size="29" font-weight="700" fill="#75432f">Tiramisu Cup</text>
+  <text x="300" y="555" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="4" fill="#9a5b3f">DINEA CAFE</text>
 </svg>

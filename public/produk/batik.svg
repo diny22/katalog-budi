@@ -1,7 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Foto contoh: Batik">
-  <rect width="600" height="600" fill="#e3e8f4"/>
-  <circle cx="300" cy="260" r="150" fill="#2f3e66" opacity="0.18"/>
-  <circle cx="300" cy="260" r="96" fill="#2f3e66" opacity="0.85"/>
-  <text x="300" y="490" text-anchor="middle" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="56" font-weight="700" fill="#2f3e66">Batik</text>
-  <text x="300" y="545" text-anchor="middle" font-family="Plus Jakarta Sans, Arial, sans-serif" font-size="26" fill="#2f3e66" opacity="0.7">foto contoh, ganti dengan foto produkmu</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Ilustrasi cinnamon roll">
+  <rect width="600" height="600" fill="#e9ddc9"/>
+  <circle cx="300" cy="270" r="188" fill="#fff8e9" opacity=".65"/>
+  <ellipse cx="300" cy="410" rx="170" ry="32" fill="#b68a62" opacity=".2"/>
+  <path d="M300 168c-91 0-154 62-154 143s63 126 154 126 154-45 154-126-63-143-154-143z" fill="#c88043" stroke="#99552f" stroke-width="10"/>
+  <path d="M300 209c-61 0-108 42-108 102s47 88 108 88 108-28 108-88-47-102-108-102z" fill="#f0bd78" stroke="#ffe0a6" stroke-width="13"/>
+  <path d="M300 251c-35 0-64 24-64 58s29 52 64 52 64-18 64-52-29-58-64-58z" fill="none" stroke="#a85e36" stroke-width="16" stroke-linecap="round"/>
+  <path d="M244 181c-19-22-2-42 18-37 12-25 43-20 46 5 23-16 46 1 35 25" fill="#fffaf3" stroke="#f5e4ca" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m140 210 12-18m-6 9 20 2m292 22 12-18m-6 9 20 2" stroke="#9a5b3f" stroke-width="8" stroke-linecap="round"/>
+  <text x="300" y="520" text-anchor="middle" font-family="Arial, sans-serif" font-size="29" font-weight="700" fill="#75432f">Cinnamon Roll</text>
+  <text x="300" y="555" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="4" fill="#9a5b3f">DINEA CAFE</text>
 </svg>

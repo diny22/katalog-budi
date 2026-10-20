@@ -7,17 +7,17 @@
 @theme {
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 
-  --color-latar: #ffffff;
-  --color-permukaan: #f1f5f2;
-  --color-garis: #dde5e0;
-  --color-teks: #1b2420;
-  --color-teks-lembut: #5b6a62;
+  --color-latar: #fffaf3;
+  --color-permukaan: #f7eee3;
+  --color-garis: #eadccd;
+  --color-teks: #38271f;
+  --color-teks-lembut: #816d60;
 
-  --color-utama: #1f6b4f;
-  --color-utama-gelap: #154d39;
+  --color-utama: #9a5b3f;
+  --color-utama-gelap: #75432f;
 
-  --color-harga: #7a4e09;
-  --color-harga-latar: #fbefd8;
+  --color-harga: #75432f;
+  --color-harga-latar: #f5e4ca;
 
   --color-bahaya: #b42318;
 }
